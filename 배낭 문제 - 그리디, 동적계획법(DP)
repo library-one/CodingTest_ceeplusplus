@@ -1,0 +1,42 @@
+#include<iostream>
+
+using namespace std;
+
+int dp[101][100001];
+int w[101];
+int v[101];
+int n, k;
+
+int main()
+{
+    cin >> n >> k;
+    for (int i = 1; i <= n; i++)
+    {
+        cin >> w[i] >> v[i];
+    }
+    //물건의 갯수 별로 비교
+    for (int i = 1; i <= n; i++)
+    {
+        //무게 비교 하기
+        for (int j = 1; j <= k; j++)
+        {
+            //물건을 넣을 수 있는 경우
+            //무게가 j 라고 할 때 들어갈 수 있는 w[i]아이템의 무게
+            // j가 7일때 최대 값
+            //가방보다 큰 무게는 거름 ex)가방 = 8 >= 아이템 무게 =9
+            //가방의 무게가 j 임으로 가방보다 큰 수는 안들어감.
+            if (j >= w[i]) {
+                //max(a,b) a와 b를 비교 
+                //오로지 전 아이템의 가치와 전
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+                cout <<i<<" "<<j<<" "<< dp[i][j] << endl;
+            }
+
+            //물건을 넣을 수 없는 경우
+            else
+                dp[i][j] = dp[i - 1][j];
+        }
+    }
+    cout << dp[n][k];
+    return 0;
+}
