@@ -1,6 +1,6 @@
 # 백준 10830 못해먹겠다
 ## 행렬 제곱
-```c++
+// 행렬은 곱하고자 하는 행렬 중 앞 행렬의 열과 뒷 행렬의 행의 크기가 같아야지만 곱할 수 있다 . 
 #include <iostream>
 #include <algorithm>
 #include <queue>
@@ -10,9 +10,9 @@
 using namespace std;
 //분할정복을 이용한 거듭제곱 알고리즘
 //시간 복잡도 o3 를 기록함으로 이걸 분할정복으로 나눔
-// 제곱이 짝수일 겨우 1로 초기화 된 배열x배열
-// 제곱이 홀수 일 경우 배열x초기값 
-// 
+//제곱이 짝수일 겨우 1로 초기화 된 배열x배열
+//제곱이 홀수 일 경우 배열x초기값 
+ 
 //long long using 선언
 using ll = long long;
 //행렬의 크기 n 행렬의 제곱수 b
@@ -26,7 +26,6 @@ ll ans[5][5];
 
 //배열 출력
 void print_ans(const ll ans[5][5]) {
-
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cout << ans[i][j]<<" ";
@@ -34,6 +33,7 @@ void print_ans(const ll ans[5][5]) {
         cout << "\n";
     }
 }
+
 //행렬 곱셈 Cij = Aik * Bkj 이다
 //짝수 행렬 (a^b*a)
 //홀수 행렬 (a^b-1*a)
@@ -45,7 +45,7 @@ void Martix_multi(ll x[5][5], ll y[5][5]) {
             for (int k = 0; k < n; k++) {
                 //C[i][j] = A[i][k] * B[k][j]
                 //전에 잇엇던 값 더하기
-                temp[i][j] =temp[i][j]+ (x[i][k] * y[k][j]);
+                temp[i][j] = temp[i][j] + ( x[i][k] * y[k][j] );
             }
             //값을 모듈러 방식으로 줄임
             temp[i][j] = temp[i][j] % mod;
@@ -82,4 +82,4 @@ int main() {
     print_ans(ans);
     return 0;
 }
-```
+
