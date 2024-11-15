@@ -1,0 +1,67 @@
+# 백준 1652 
+
+#include <iostream>
+#include <algorithm>
+#include <string>
+
+
+using namespace std;
+//입력 받는 크기 정하기
+int n;
+//가로 검사
+int w = 0;
+//세로 검사
+int h = 0;
+//입력 받을 문자열
+string s;
+// 바닥에 누울 수 있는지 검사하는 불값
+bool flag=true;
+// 문자열을 저장하여 비교할 수 있게 할 2차원 배열
+char arr[101][101];
+
+//가로 검사
+void checkw(int x) {
+    flag = false;
+    for (int i = 0; i < n; ++i) {
+        //false 하고 배열의 다음이 똑같은 . 일 때 체크
+        if (!flag && arr[x][i] == '.'&&arr[x][i+1]=='.') {
+            w++;
+            //한줄에 누울 수 있다 판단하면 통과
+            flag = true;
+        }
+        //X 검사 = 범위를 전부 검사하기 위함 
+        if (arr[x][i] == 'X') {
+            flag = false;
+        }
+    }
+}
+
+void checkh(int y) {
+    flag = false;
+    for (int i = 0; i < n; ++i) {
+        if (!flag && arr[i][y] == '.' && arr[i + 1][y] == '.') {
+            h++;
+            flag = true;
+        }
+        if (arr[i][y] == 'X') {
+            flag = false;
+        }
+    }
+}
+int main(){
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        cin >> s;
+        for (int j = 0; j < n; ++j) {
+            arr[i][j] = s[j];
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        checkw(i);
+        checkh(i);
+    }
+
+    cout << w << " " << h<<"\n";
+    return 0;
+}
+
