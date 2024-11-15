@@ -1,0 +1,53 @@
+# 백준 1747
+어떤 수와 그 수의 숫자 순서를 뒤집은 수가 일치하는 수를 팰린드롬이라 부른다. 예를 들어 79,197과 324,423 등이 팰린드롬 수이다.
+어떤 수 N (1 ≤ N ≤ 1,000,000)이 주어졌을 때, N보다 크거나 같고, 소수이면서 팰린드롬인 수 중에서, 가장 작은 수를 구하는 프로그램을 작성하시오.
+
+#include <iostream>
+#include <algorithm>
+#include <math.h>
+#include <string>
+
+using namespace std;
+
+//소수를 구해야함 = 에라토스테네스의 체 = 소수 숫자 구하는 공식
+//소수는 1보다 크고 자기 자신외의 자연수로 나누어지면안딤
+ bool sieve(int n) {
+    //2 이하의 숫자는 소수가 아님
+    if(n<2) return false;
+    if (n == 2)return true;
+    //숫자를 받앗을 때 만약 소수가 아니라면 제곱근 은 하나의 약수가 있기 떄문에 아님
+    for (int i = 2; i <= sqrt(n); i++) {
+        //i로 나누었을 때 나머지가 0이 아니면 소수 가 아님 나누어 떨어 지는 숫자가 있기 때문
+        if (n % i == 0)return false;
+    }
+    //위의 조건을 통과했을때 소수로 판별
+    return true;
+}
+//팰린드롬 검사
+ bool checkPalindrome(string str) {
+    string front, back;
+    //문자열 앞
+    front = str;
+    //앞뒤가 같은걸 판별하기위해 앞뒤를 바꿈 = 자릿수가 홀수던 짝수던 상관 없음
+    reverse(str.begin(), str.end());
+    //뒤집은 문자열 
+    back = str;
+    //같으면 true 아니면 false
+    if (front == back) return true;
+    else return false;
+}
+int main() {
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int n;
+    cin >> n;
+    // 값의 범위에 1,000,000 가 포함되어야 하기 때문에 그 이상의 범위를 넣어야 함 안그럼 틀림
+    // 이것 때문에 1000번틀림 진짜 개 짜증남
+    for (int i = n;i<1000000000 ; i++) {
+        //두가지 조건을 만족 할 시 통과
+        if (sieve(i) && checkPalindrome(to_string(i))) {
+            cout << i;
+            break;
+        }
+    }
+    return 0;
+}
