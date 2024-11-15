@@ -1,0 +1,85 @@
+# 백준 10830 못해먹겠다
+## 행렬 제곱
+```c++
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <functional>
+
+#define mod 1000
+using namespace std;
+//분할정복을 이용한 거듭제곱 알고리즘
+//시간 복잡도 o3 를 기록함으로 이걸 분할정복으로 나눔
+// 제곱이 짝수일 겨우 1로 초기화 된 배열x배열
+// 제곱이 홀수 일 경우 배열x초기값 
+// 
+//long long using 선언
+using ll = long long;
+//행렬의 크기 n 행렬의 제곱수 b
+ll n, b;
+//행렬 a
+ll a[5][5];
+//임시 전환
+ll temp[5][5];
+//정답 배열
+ll ans[5][5];
+
+//배열 출력
+void print_ans(const ll ans[5][5]) {
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << ans[i][j]<<" ";
+        }
+        cout << "\n";
+    }
+}
+//행렬 곱셈 Cij = Aik * Bkj 이다
+//짝수 행렬 (a^b*a)
+//홀수 행렬 (a^b-1*a)
+void Martix_multi(ll x[5][5], ll y[5][5]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            //전환 할 배열 값 들 초기화
+            temp[i][j] = 0;
+            for (int k = 0; k < n; k++) {
+                //C[i][j] = A[i][k] * B[k][j]
+                //전에 잇엇던 값 더하기
+                temp[i][j] =temp[i][j]+ (x[i][k] * y[k][j]);
+            }
+            //값을 모듈러 방식으로 줄임
+            temp[i][j] = temp[i][j] % mod;
+        }    
+    }
+    //계산된 값을 x[i][j] 으로 다시 집어넘
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            x[i][j] = temp[i][j];
+        }
+    }
+}
+
+int main() {
+    cin >> n >> b;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            //입력될 행렬을 a배열에 집어넣음
+            cin >> a[i][j];
+        }
+        //동시에 정답 배열 초기화
+        ans[i][i] = 1;
+    }
+    while (b > 0) {
+        //홀수 제곱일때 정답배열에 한번 더 곱함
+        if (b % 2 == 1) {
+            Martix_multi(ans, a);
+        }
+        //짝수 제곱일때 
+        Martix_multi(a, a);
+        //반복문 빠져나가기 위한 나눗셈 지수의 분할은 지수/2 이기 때문이다.
+        b /= 2;
+    }
+    print_ans(ans);
+    return 0;
+}
+```
